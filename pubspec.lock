@@ -85,6 +85,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "7.4.1-dev"
+  built_redux_rx:
+    dependency: "direct main"
+    description:
+      name: built_redux_rx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   built_value:
     dependency: "direct main"
     description:

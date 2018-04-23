@@ -20,7 +20,13 @@ class TodoList extends StoreConnector<AppState, AppActions, BuiltList<Todo>> {
   @override
   Widget build(
       BuildContext context, BuiltList<Todo> state, AppActions actions) {
-    return new Text(state[0].title);
+    if (state.isEmpty) {
+      return new Center(
+        child: new Text('List is empty'),
+      );
+    } else {
+      return new Text(state[0].title);
+    }
   }
 
   @override

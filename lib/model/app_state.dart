@@ -11,7 +11,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   BuiltList<Todo> get todos;
 
-  factory AppState.init() => new AppState((b) => b..todos = new BuiltList<Todo>([new Todo((b) => b.title = "First")]).toBuilder());
+  factory AppState.init() => new AppState((b) => b..todos = new BuiltList<Todo>([]).toBuilder());
 
   factory AppState([updates(AppStateBuilder b)]) = _$AppState;
 }

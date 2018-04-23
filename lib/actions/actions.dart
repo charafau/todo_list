@@ -12,5 +12,6 @@ abstract class AppActions extends ReduxActions {
   factory AppActions() => new _$AppActions();
 
   ActionDispatcher<Todo> addTodo;
+  ActionDispatcher<Null> requestTodos;
 
 }
