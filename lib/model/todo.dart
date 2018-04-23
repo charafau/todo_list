@@ -14,5 +14,6 @@ abstract class Todo implements Built<Todo, TodoBuilder> {
 
   factory Todo([updates(TodoBuilder b)]) = _$Todo;
 
+  factory Todo.empty() => new Todo((b) => b..title = 'empty');
 
 }
