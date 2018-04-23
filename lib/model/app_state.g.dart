@@ -16,13 +16,13 @@ part of app_state;
 
 class _$AppState extends AppState {
   @override
-  final Todo todo;
+  final BuiltList<Todo> todos;
 
   factory _$AppState([void updates(AppStateBuilder b)]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.todo}) : super._() {
-    if (todo == null) throw new BuiltValueNullFieldError('AppState', 'todo');
+  _$AppState._({this.todos}) : super._() {
+    if (todos == null) throw new BuiltValueNullFieldError('AppState', 'todos');
   }
 
   @override
@@ -36,17 +36,17 @@ class _$AppState extends AppState {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! AppState) return false;
-    return todo == other.todo;
+    return todos == other.todos;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, todo.hashCode));
+    return $jf($jc(0, todos.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AppState')..add('todo', todo))
+    return (newBuiltValueToStringHelper('AppState')..add('todos', todos))
         .toString();
   }
 }
@@ -54,15 +54,15 @@ class _$AppState extends AppState {
 class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState _$v;
 
-  TodoBuilder _todo;
-  TodoBuilder get todo => _$this._todo ??= new TodoBuilder();
-  set todo(TodoBuilder todo) => _$this._todo = todo;
+  ListBuilder<Todo> _todos;
+  ListBuilder<Todo> get todos => _$this._todos ??= new ListBuilder<Todo>();
+  set todos(ListBuilder<Todo> todos) => _$this._todos = todos;
 
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     if (_$v != null) {
-      _todo = _$v.todo?.toBuilder();
+      _todos = _$v.todos?.toBuilder();
       _$v = null;
     }
     return this;
@@ -83,12 +83,12 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState build() {
     _$AppState _$result;
     try {
-      _$result = _$v ?? new _$AppState._(todo: todo.build());
+      _$result = _$v ?? new _$AppState._(todos: todos.build());
     } catch (_) {
       String _$failedField;
       try {
-        _$failedField = 'todo';
-        todo.build();
+        _$failedField = 'todos';
+        todos.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AppState', _$failedField, e.toString());

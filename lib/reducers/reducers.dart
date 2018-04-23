@@ -8,7 +8,7 @@ var reducerBuilder  = new ReducerBuilder<AppState, AppStateBuilder>()
     ..add(AppActionsNames.addTodo, addTodo);
 
 void addTodo(AppState state, Action<Todo> action, AppStateBuilder builder) {
-  builder.todo = state.todo.toBuilder();
+  builder.todos = state.todos.rebuild((b) => b..add(action.payload)).toBuilder();
 }
 
 

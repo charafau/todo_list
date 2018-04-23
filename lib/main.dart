@@ -3,23 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/actions/actions.dart';
 import 'package:todo_list/model/models.dart';
 import 'package:todo_list/reducers/reducers.dart';
+import 'package:flutter_built_redux/flutter_built_redux.dart';
+import 'package:todo_list/widgets/home_screen.dart';
 
-main() => runApp(new HomePage());
+main() => runApp(new TodoApp());
 
-//class HomePage extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return new MaterialApp(
-//      home: new Scaffold(
-//        body: new Center(
-//          child: new Text('hello'),
-//        ),
-//      ),
-//    );
-//  }
-//}
-
-class HomePage extends StatefulWidget {
+class TodoApp extends StatefulWidget {
 
   final store = new Store<AppState, AppStateBuilder, AppActions>(
     reducerBuilder.build(),
@@ -29,10 +18,10 @@ class HomePage extends StatefulWidget {
   );
 
   @override
-  _HomePageState createState() => new _HomePageState();
+  _TodoAppState createState() => new _TodoAppState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TodoAppState extends State<TodoApp> {
 
   Store<AppState, AppStateBuilder, AppActions> store;
 
@@ -45,11 +34,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      home: new Scaffold(
-        body: new Center(
-          child: new Text('hello'),
-        ),
+    return new ReduxProvider(
+      store: store,
+      child: new MaterialApp(
+        home: new HomeScreen(),
       ),
     );
   }
