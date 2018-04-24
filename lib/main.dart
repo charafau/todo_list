@@ -1,44 +1,63 @@
-import 'package:built_redux/built_redux.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 import 'package:todo_list/actions/actions.dart';
+import 'package:todo_list/middlewares/middleware.dart';
 import 'package:todo_list/model/models.dart';
 import 'package:todo_list/reducers/reducers.dart';
-import 'package:flutter_built_redux/flutter_built_redux.dart';
-import 'package:todo_list/widgets/home_screen.dart';
+import 'package:todo_list/repositories/firebase_todo_repository.dart';
 
-main() => runApp(new TodoApp());
+main() async {
+  runApp(new TodoApp());
+}
 
-class TodoApp extends StatefulWidget {
-
-  final store = new Store<AppState, AppStateBuilder, AppActions>(
-    reducerBuilder.build(),
-    new AppState.init(),
-    new AppActions(),
-    middleware: []
+class TodoApp extends StatelessWidget {
+  Store<AppState> store = new Store<AppState>(
+    appStateReducer,
+    initialState: new AppState.init(),
+    middleware: createStoreTodosMiddleware(
+      new FirebaseTodoRepository(FirebaseDatabase.instance),
+    ),
   );
 
   @override
-  _TodoAppState createState() => new _TodoAppState();
+  Widget build(BuildContext context) {
+    return new StoreProvider(
+      store: store,
+      child: new MaterialApp(
+        title: 'Hello',
+        theme: new ThemeData(primarySwatch: Colors.green),
+        home: new HomePage(title: 'Hello'),
+      ),
+    );
+  }
 }
 
-class _TodoAppState extends State<TodoApp> {
+class HomePage extends StatelessWidget {
+  final String title;
 
-  Store<AppState, AppStateBuilder, AppActions> store;
-
-
-  @override
-  void initState() {
-    store = widget.store;
-    super.initState();
-  }
+  const HomePage({Key key, this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new ReduxProvider(
-      store: store,
-      child: new MaterialApp(
-        home: new HomeScreen(),
-      ),
-    );
+    return new StoreBuilder(
+        builder: (BuildContext context, Store<AppState> store) {
+      return new Scaffold(
+        appBar: new AppBar(
+          title: new Text("hello"),
+        ),
+        body: new Center(
+          child: new Text("todo here"),
+        ),
+        floatingActionButton: new FloatingActionButton(
+          onPressed: () {
+            store.dispatch(new AddTodoAction());
+          },
+          child: new Icon(Icons.add),
+        ),
+      );
+    });
   }
 }

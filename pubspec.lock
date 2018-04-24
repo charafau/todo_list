@@ -78,20 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
-  built_redux:
-    dependency: "direct main"
-    description:
-      name: built_redux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.4.1-dev"
-  built_redux_rx:
-    dependency: "direct main"
-    description:
-      name: built_redux_rx
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.1"
   built_value:
     dependency: "direct main"
     description:
@@ -202,10 +188,10 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_built_redux:
+  flutter_redux:
     dependency: "direct main"
     description:
-      name: flutter_built_redux
+      name: flutter_redux
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.0"
@@ -383,7 +369,7 @@ packages:
     source: hosted
     version: "0.28.0"
   redux:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: redux
       url: "https://pub.dartlang.org"

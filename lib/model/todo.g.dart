@@ -14,6 +14,48 @@ part of todo;
 // ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: sort_constructors_first
 
+Serializer<Todo> _$todoSerializer = new _$TodoSerializer();
+
+class _$TodoSerializer implements StructuredSerializer<Todo> {
+  @override
+  final Iterable<Type> types = const [Todo, _$Todo];
+  @override
+  final String wireName = 'Todo';
+
+  @override
+  Iterable serialize(Serializers serializers, Todo object,
+      {FullType specifiedType: FullType.unspecified}) {
+    final result = <Object>[
+      'title',
+      serializers.serialize(object.title,
+          specifiedType: const FullType(String)),
+    ];
+
+    return result;
+  }
+
+  @override
+  Todo deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType: FullType.unspecified}) {
+    final result = new TodoBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'title':
+          result.title = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$Todo extends Todo {
   @override
   final String title;

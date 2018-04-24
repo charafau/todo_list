@@ -14,6 +14,51 @@ part of app_state;
 // ignore_for_file: prefer_expression_function_bodies
 // ignore_for_file: sort_constructors_first
 
+Serializer<AppState> _$appStateSerializer = new _$AppStateSerializer();
+
+class _$AppStateSerializer implements StructuredSerializer<AppState> {
+  @override
+  final Iterable<Type> types = const [AppState, _$AppState];
+  @override
+  final String wireName = 'AppState';
+
+  @override
+  Iterable serialize(Serializers serializers, AppState object,
+      {FullType specifiedType: FullType.unspecified}) {
+    final result = <Object>[
+      'todos',
+      serializers.serialize(object.todos,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Todo)])),
+    ];
+
+    return result;
+  }
+
+  @override
+  AppState deserialize(Serializers serializers, Iterable serialized,
+      {FullType specifiedType: FullType.unspecified}) {
+    final result = new AppStateBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final dynamic value = iterator.current;
+      switch (key) {
+        case 'todos':
+          result.todos.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(Todo)]))
+              as BuiltList);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
 class _$AppState extends AppState {
   @override
   final BuiltList<Todo> todos;
