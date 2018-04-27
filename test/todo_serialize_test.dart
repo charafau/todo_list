@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:built_value/serializer.dart';
 import 'package:test/test.dart';
 import 'package:todo_list/model/models.dart';
 import 'package:todo_list/model/serializers.dart';
@@ -31,12 +32,13 @@ void main() {
 
     final BuiltList<Todo> todos = new BuiltList<Todo>([todo]);
 
-    var jString = json.encode(serializers.serialize(todos));
+    final specifiedType = const FullType(BuiltList, const [const FullType(Todo)]);
+    var jString = serializers.serialize(todos, specifiedType: specifiedType);
 
     print(jString);
 
-    //wrong output:
-    // {"$":"list","":{"$":"Todo","title":"My todo"}}
+    //output:
+    // [{title: My todo}]
 
   });
 }

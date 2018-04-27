@@ -26,6 +26,9 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
   Iterable serialize(Serializers serializers, AppState object,
       {FullType specifiedType: FullType.unspecified}) {
     final result = <Object>[
+      'isLoading',
+      serializers.serialize(object.isLoading,
+          specifiedType: const FullType(bool)),
       'todos',
       serializers.serialize(object.todos,
           specifiedType:
@@ -46,6 +49,10 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
+        case 'isLoading':
+          result.isLoading = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool;
+          break;
         case 'todos':
           result.todos.replace(serializers.deserialize(value,
                   specifiedType:
@@ -61,12 +68,16 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
 
 class _$AppState extends AppState {
   @override
+  final bool isLoading;
+  @override
   final BuiltList<Todo> todos;
 
   factory _$AppState([void updates(AppStateBuilder b)]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.todos}) : super._() {
+  _$AppState._({this.isLoading, this.todos}) : super._() {
+    if (isLoading == null)
+      throw new BuiltValueNullFieldError('AppState', 'isLoading');
     if (todos == null) throw new BuiltValueNullFieldError('AppState', 'todos');
   }
 
@@ -81,23 +92,29 @@ class _$AppState extends AppState {
   bool operator ==(dynamic other) {
     if (identical(other, this)) return true;
     if (other is! AppState) return false;
-    return todos == other.todos;
+    return isLoading == other.isLoading && todos == other.todos;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, todos.hashCode));
+    return $jf($jc($jc(0, isLoading.hashCode), todos.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AppState')..add('todos', todos))
+    return (newBuiltValueToStringHelper('AppState')
+          ..add('isLoading', isLoading)
+          ..add('todos', todos))
         .toString();
   }
 }
 
 class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState _$v;
+
+  bool _isLoading;
+  bool get isLoading => _$this._isLoading;
+  set isLoading(bool isLoading) => _$this._isLoading = isLoading;
 
   ListBuilder<Todo> _todos;
   ListBuilder<Todo> get todos => _$this._todos ??= new ListBuilder<Todo>();
@@ -107,6 +124,7 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
 
   AppStateBuilder get _$this {
     if (_$v != null) {
+      _isLoading = _$v.isLoading;
       _todos = _$v.todos?.toBuilder();
       _$v = null;
     }
@@ -128,7 +146,8 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState build() {
     _$AppState _$result;
     try {
-      _$result = _$v ?? new _$AppState._(todos: todos.build());
+      _$result =
+          _$v ?? new _$AppState._(isLoading: isLoading, todos: todos.build());
     } catch (_) {
       String _$failedField;
       try {

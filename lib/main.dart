@@ -1,10 +1,10 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:todo_list/actions/actions.dart';
 import 'package:todo_list/middlewares/middleware.dart';
+import 'package:todo_list/model/app_state.dart';
 import 'package:todo_list/model/models.dart';
 import 'package:todo_list/reducers/reducers.dart';
 import 'package:todo_list/repositories/firebase_todo_repository.dart';
@@ -18,8 +18,7 @@ class TodoApp extends StatelessWidget {
     appStateReducer,
     initialState: new AppState.init(),
     middleware: createStoreTodosMiddleware(
-      new FirebaseTodoRepository(FirebaseDatabase.instance),
-    ),
+        new FirebaseTodoRepository(FirebaseDatabase.instance)),
   );
 
   @override
@@ -35,6 +34,7 @@ class TodoApp extends StatelessWidget {
   }
 }
 
+//
 class HomePage extends StatelessWidget {
   final String title;
 
@@ -42,18 +42,32 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final myController = new TextEditingController();
+
     return new StoreBuilder(
         builder: (BuildContext context, Store<AppState> store) {
       return new Scaffold(
         appBar: new AppBar(
           title: new Text("hello"),
         ),
-        body: new Center(
-          child: new Text("todo here"),
+        body: new Column(
+          children: <Widget>[
+            new Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: new TextField(
+                controller: myController,
+              ),
+            ),
+            new Center(
+              child: new Text("todo here"),
+            ),
+          ],
         ),
         floatingActionButton: new FloatingActionButton(
           onPressed: () {
-            store.dispatch(new AddTodoAction());
+
+            store.dispatch(
+                new AddTodoAction(new Todo((b) => b..title = myController.text)));
           },
           child: new Icon(Icons.add),
         ),

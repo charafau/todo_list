@@ -12,10 +12,15 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   AppState._();
 
+  bool get isLoading;
+
   BuiltList<Todo> get todos;
 
   factory AppState.init() =>
-      new AppState((b) => b..todos = new BuiltList<Todo>([]).toBuilder());
+      new AppState((b) => b
+        ..isLoading = true
+        ..todos = new BuiltList<Todo>([]).toBuilder()
+      );
 
   factory AppState([updates(AppStateBuilder b)]) = _$AppState;
 }

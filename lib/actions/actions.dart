@@ -1,25 +1,27 @@
 library actions;
 
-import 'package:built_value/built_value.dart';
 import 'package:todo_list/model/models.dart';
-
-//abstract class AppActions extends ReduxActions {
-
-//  AppActions._();
-//
-//  factory AppActions() => new _$AppActions();
-//
-//  ActionDispatcher<Todo> addTodo;
-//  ActionDispatcher<Null> requestTodos;
-//
-//}
 
 class RequestTodoListEventsAction {}
 
-class AddTodoAction {}
+class AddTodoAction {
+  final Todo todo;
 
-class LoadedTodosAction {
+  AddTodoAction(this.todo);
+
+  @override
+  String toString() {
+    return 'AddTodoAction{todo: $todo}';
+  }
+}
+
+class LoadTodosAction {
   final List<Todo> todos;
 
-  LoadedTodosAction(this.todos);
+  LoadTodosAction(this.todos);
+
+  @override
+  String toString() {
+    return 'LoadTodosAction{todos: $todos}';
+  }
 }
