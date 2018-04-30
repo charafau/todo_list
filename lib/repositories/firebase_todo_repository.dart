@@ -14,13 +14,27 @@ class FirebaseTodoRepository implements TodoRepository {
 
   FirebaseTodoRepository(this.firebaseDatabase);
 
+  final listSpecifiedType =
+      const FullType(BuiltList, const [const FullType(Todo)]);
+
   @override
   Stream<List<Todo>> todos() {
     return firebaseDatabase
         .reference()
         .child(TODO_KEY)
         .onValue
-        .map((Event event) => [new Todo((b) => b..title = 'first')]);
+        .map((Event event) {
+      var value = event.snapshot.value;
+      BuiltList<Todo> todos;
+      if (value != null) {
+        todos =
+            serializers.deserialize(value, specifiedType: listSpecifiedType);
+
+        return todos.toList();
+      } else {
+        todos = new BuiltList([]);
+      }
+    });
   }
 
   @override
@@ -35,19 +49,17 @@ class FirebaseTodoRepository implements TodoRepository {
   void _addNew(DataSnapshot snapshot, Todo todo) {
     var ref = firebaseDatabase.reference().child(TODO_KEY);
 
-    var specifiedType = const FullType(BuiltList, const [const FullType(Todo)]);
-
     var value = snapshot.value;
     BuiltList<Todo> todos;
     if (value != null) {
-      todos = serializers.deserialize(value, specifiedType: specifiedType);
+      todos = serializers.deserialize(value, specifiedType: listSpecifiedType);
 
       todos = todos.rebuild((b) => b..add(todo));
     } else {
       todos = new BuiltList([todo]);
     }
 
-    ref.set(serializers.serialize(todos, specifiedType: specifiedType));
+    ref.set(serializers.serialize(todos, specifiedType: listSpecifiedType));
 
     print('saved');
   }

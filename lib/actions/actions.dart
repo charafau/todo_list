@@ -2,7 +2,10 @@ library actions;
 
 import 'package:todo_list/model/models.dart';
 
-class RequestTodoListEventsAction {}
+class RequestCounterDataEventsAction {}
+
+class CancelCounterDataEventsAction {}
+
 
 class AddTodoAction {
   final Todo todo;

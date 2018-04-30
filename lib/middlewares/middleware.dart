@@ -9,7 +9,7 @@ final reference = FirebaseDatabase.instance.reference().child('todos');
 List<Middleware<AppState>> createStoreTodosMiddleware(
     TodoRepository todosRepository) {
   return [
-    new TypedMiddleware<AppState, LoadTodosAction>(
+    new TypedMiddleware<AppState, RequestCounterDataEventsAction>(
         _databaseConnect(todosRepository)),
     new TypedMiddleware<AppState, AddTodoAction>(_databaseSaveNewTodo(todosRepository)),
   ];
@@ -26,7 +26,7 @@ _databaseSaveNewTodo(TodoRepository repository) {
 }
 
 void Function(
-        Store<AppState> store, LoadTodosAction action, NextDispatcher next)
+        Store<AppState> store, RequestCounterDataEventsAction action, NextDispatcher next)
     _databaseConnect(
   TodoRepository repository,
 ) {
