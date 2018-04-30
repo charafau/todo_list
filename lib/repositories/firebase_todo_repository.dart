@@ -60,7 +60,5 @@ class FirebaseTodoRepository implements TodoRepository {
     }
 
     ref.set(serializers.serialize(todos, specifiedType: listSpecifiedType));
-
-    print('saved');
   }
 }
